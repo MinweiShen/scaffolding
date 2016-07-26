@@ -4,11 +4,19 @@ Usage:
   scaffold.py list
   scaffold.py create <name>
   scaffold.py create --template=<path>
+  scaffold.py show <name>
+  scaffold.py show --template=<path>
 
+
+Commands:
+  list                  Show available templates
+  create                Create layout in current working directory
+  show                  Show detailed layout of templates
 
 Options:
   -h --help             Show this screen.
   --template=<path>     Path to your template, should be a directory
+  <name>                <name> should be a directory in templates
 
 """
 import sys
@@ -28,4 +36,6 @@ if __name__ == '__main__':
     if parser.is_list:
         scaffolder.list_templates()
     elif parser.is_create:
-        scaffolder.create_layout(name=parser.args['<name>'], template=parser.args['--template'])
+        scaffolder.create_layout(parser.args['<name>'], parser.args['--template'])
+    elif parser.is_show:
+        scaffolder.show_layout(parser.args['<name>'], parser.args['--template'])

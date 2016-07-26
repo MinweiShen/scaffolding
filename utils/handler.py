@@ -31,25 +31,33 @@ class Scaffolder(object):
     def create_layout(self, name, template):
         if name:
             path = os.path.join(self.tdir, name)
-            cfg = os.path.join(path, 'context')
-            if not os.path.isfile(cfg):
-                print 'Can\'t load %s. Abort.' % cfg
+            if not os.path.isdir(path):
+                print '%s template doesn\'t exist.' % name
                 sys.exit(-1)
-
-            configs = ConfigParser(cfg).parse()
-
-            for variable, default in configs:
-                if default:
-                    val = raw_input('Set %s (default is %s): ' % (variable, default))
-                else:
-                    val = raw_input('Set %s: ' % variable)
-                self.context[variable] = val or default
-
-            self._create(path)
         elif template:
-            pass
+            print 'Not supported yet.'
+            sys.exit(-1)
+
+        cfg = os.path.join(path, 'context')
+        if not os.path.isfile(cfg):
+            print 'Can\'t load %s.' % cfg
+            sys.exit(-1)
+
+        configs = ConfigParser(cfg).parse()
+
+        for variable, default in configs:
+            if default:
+                val = raw_input('Set %s (default is %s): ' % (variable, default))
+            else:
+                val = raw_input('Set %s: ' % variable)
+            self.context[variable] = val or default
+
+        self._create(path)
 
     def _create(self, path):
+        """
+            Render whatever in "path" to the current working directory
+        """
         cwd = os.getcwd()
         for d in os.listdir(path):
             dp = os.path.join(path, d)
@@ -65,4 +73,30 @@ class Scaffolder(object):
                 os.chdir(new_path)
                 self._create(dp)
                 os.chdir(cwd)
+
+    def show_layout(self, name, template):
+        if name:
+            path = os.path.join(self.tdir, name)
+            if not os.path.isdir(path):
+                print '%s template doesn\'t exist.' % name
+                sys.exit(-1)
+        elif template:
+            print 'Not supported yet.'
+            sys.exit(-1)
+
+        print path
+        self._list_directory(path, 0)
+
+    def _list_directory(self, path, space):
+        for d in os.listdir(path)[::-1]:
+            dp = os.path.join(path, d)
+            if os.path.isdir(dp):
+                print '|' + ' ' * space + '-- ' +  d
+                self._list_directory(dp, space+4)
+            else:
+                print '|' + ' ' * space + '-- ' +  d
+
+
+
+
 

@@ -9,7 +9,6 @@ class ConfigParser(object):
         else:
             base = os.path.dirname(os.path.abspath(__file__))
             path = os.path.join(base, path)
-            print path
             if os.path.isfile(path):
                 self.path = path
             else:
@@ -20,15 +19,12 @@ class ConfigParser(object):
         result = []
         with open(self.path) as f:
             for l in f.readlines():
-                if l.startswith('#'):
-                    continue
+                l = l.rstrip()
+                if ':' in l:
+                    key, val = l.split(':')
+                    key, val = key.strip(), val.strip()
+                    result.append((key, val))
                 else:
-                    l = l.rstrip()
-                    if ':' in l:
-                        key, val = l.split(':')
-                        key, val = key.strip(), val.strip()
-                        result.append((key, val))
-                    else:
-                        key = l.strip()
-                        result.append((key, ''))
+                    key = l.strip()
+                    result.append((key, ''))
         return result

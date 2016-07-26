@@ -1,1 +1,1 @@
-{{ app_name }}
+__author__ = '{{ author }}'

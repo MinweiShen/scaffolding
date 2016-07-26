@@ -1,5 +1,4 @@
 import sys
-import os
 import re
 tag = re.compile('({{.*?}})')
 
@@ -18,9 +17,9 @@ class Template(object):
     def __init__(self, file, temp_str=''):
         self.file = file
         self.template_string = temp_str or self._get_template_string(file)
-        self.node_list = self.make_node_list()
+        self.tokens = self.tokenize()
 
-    def make_node_list(self):
+    def tokenize(self):
         tokens = tag.split(self.template_string)
         result = []
         for token in tokens:
@@ -34,9 +33,9 @@ class Template(object):
         result = []
         lineno = 1
         try:
-            for node in self.node_list:
-                result.append(self._render(node, context, lineno))
-                lineno += node[0].count('\n')
+            for token in self.tokens:
+                result.append(self._render(token, context, lineno))
+                lineno += token[0].count('\n')
         except ContextDoseNotExist, e:
             if self.file:
                 print e.message
@@ -45,15 +44,15 @@ class Template(object):
             sys.exit(-1)
         return ''.join(result)
 
-    def _render(self, node, context, lineno):
-        token, t = node
+    def _render(self, token, context, lineno):
+        text, t = token
         if t == 'TEXT':
-            return token
+            return text
         else:
             try:
-                return context[token]
+                return context[text]
             except KeyError:
-                raise ContextDoseNotExist(self.file, lineno, token)
+                raise ContextDoseNotExist(self.file, lineno, text)
 
     @classmethod
     def _get_template_string(cls, f):
