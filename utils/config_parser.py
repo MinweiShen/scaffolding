@@ -13,7 +13,7 @@ class ConfigParser(object):
             if os.path.isfile(path):
                 self.path = path
             else:
-                print 'Please provide a valid path'
+                print 'Please provide a valid config file path'
                 sys.exit(-1)
 
     def parse(self):
