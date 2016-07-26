@@ -4,16 +4,19 @@ tag = re.compile('({{.*?}})')
 
 
 class ContextDoseNotExist(Exception):
-    def __init__(self, file, lineno, name):
-        self.message = '%s line %d: {{ %s }} not defined' % (
-            file, lineno, name
-        )
+    def __init__(self, file='', lineno=0, name=''):
+        if file:
+            self.message = '%s line %d: {{ %s }} not defined.' % (
+                file, lineno, name
+            )
+        else:
+            self.message = '{{ %s }} not defined.' % name
 
 
 class Template(object):
-    def __init__(self, file):
+    def __init__(self, file, temp_str=''):
         self.file = file
-        self.template_string = self._get_template_string(file)
+        self.template_string = temp_str or self._get_template_string(file)
         self.node_list = self.make_node_list()
 
     def make_node_list(self):
@@ -34,7 +37,10 @@ class Template(object):
                 result.append(self._render(node, context, lineno))
                 lineno += node[0].count('\n')
         except ContextDoseNotExist, e:
-            print e.message
+            if self.file:
+                print e.message
+            else:
+                print 'In %s, %s' % (self.template_string, e.message)
             sys.exit(-1)
         return ''.join(result)
 
