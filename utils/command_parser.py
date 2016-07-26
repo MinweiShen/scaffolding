@@ -16,3 +16,16 @@ class CommandParser(object):
     @property
     def is_show(self):
         return self.args['show']
+
+    @property
+    def is_location(self):
+        return self.args['location']
+
+    @property
+    def name(self):
+        return self.args['<name>']
+
+
+    @property
+    def template(self):
+        return self.args['--template']

@@ -2,6 +2,7 @@
 
 Usage:
   scaffold.py list
+  scaffold.py location
   scaffold.py create <name>
   scaffold.py create --template=<path>
   scaffold.py show <name>
@@ -12,6 +13,7 @@ Commands:
   list                  Show available templates
   create                Create layout in current working directory
   show                  Show detailed layout of templates
+  location              Show the template directory
 
 Options:
   -h --help             Show this screen.
@@ -36,6 +38,8 @@ if __name__ == '__main__':
     if parser.is_list:
         scaffolder.list_templates()
     elif parser.is_create:
-        scaffolder.create_layout(parser.args['<name>'], parser.args['--template'])
+        scaffolder.create_layout(parser.name, parser.template)
     elif parser.is_show:
-        scaffolder.show_layout(parser.args['<name>'], parser.args['--template'])
+        scaffolder.show_layout(parser.name, parser.template)
+    elif parser.is_location:
+        print scaffolder.location

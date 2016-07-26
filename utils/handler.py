@@ -91,10 +91,14 @@ class Scaffolder(object):
         for d in os.listdir(path)[::-1]:
             dp = os.path.join(path, d)
             if os.path.isdir(dp):
-                print '|' + ' ' * space + '-- ' +  d
+                print '|' + ' ' * space + '-- ' + d
                 self._list_directory(dp, space+4)
             else:
-                print '|' + ' ' * space + '-- ' +  d
+                print '|' + ' ' * space + '-- ' + d
+
+    @property
+    def location(self):
+        return self.tdir
 
 
 
