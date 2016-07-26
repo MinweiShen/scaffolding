@@ -14,7 +14,7 @@ class Converter(object):
 
     def convert(self):
         base = os.path.basename(self.path)
-        template = Template(file=None, temp_str=base)
+        template = Template(temp_file=None, temp_str=base)
         base = template.render(self.context)
         return base
 

@@ -14,9 +14,9 @@ class ContextDoseNotExist(Exception):
 
 
 class Template(object):
-    def __init__(self, file, temp_str=''):
-        self.file = file
-        self.template_string = temp_str or self._get_template_string(file)
+    def __init__(self, temp_file, temp_str=''):
+        self.file = temp_file
+        self.template_string = temp_str or self._get_template_string(self.file)
         self.tokens = self.tokenize()
 
     def tokenize(self):
