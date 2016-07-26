@@ -2,18 +2,20 @@
 
 Usage:
   scaffold.py list
-  scaffold.py location
+  scaffold.py locate
   scaffold.py create <name>
   scaffold.py create --template=<path>
   scaffold.py show <name>
   scaffold.py show --template=<path>
+  scaffold.py remove <name>
 
 
 Commands:
   list                  Show available templates
   create                Create layout in current working directory
   show                  Show detailed layout of templates
-  location              Show the template directory
+  locate                Show the template directory
+  remove                Remove a template if you don't want it
 
 Options:
   -h --help             Show this screen.
@@ -41,5 +43,7 @@ if __name__ == '__main__':
         scaffolder.create_layout(parser.name, parser.template)
     elif parser.is_show:
         scaffolder.show_layout(parser.name, parser.template)
-    elif parser.is_location:
+    elif parser.is_locate:
         print scaffolder.location
+    elif parser.is_remove:
+        scaffolder.remove(parser.name)

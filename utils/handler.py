@@ -1,5 +1,6 @@
 import os
 import sys
+from subprocess import check_output
 from render import Template
 from config_parser import ConfigParser
 
@@ -95,6 +96,14 @@ class Scaffolder(object):
                 self._list_directory(dp, space+4)
             else:
                 print '|' + ' ' * space + '-- ' + d
+
+    def remove(self, name):
+        path = os.path.join(self.tdir, name)
+        if os.path.isdir(path):
+            try:
+                check_output(['rm', '-r', path])
+            except:
+                pass
 
     @property
     def location(self):

@@ -18,14 +18,18 @@ class CommandParser(object):
         return self.args['show']
 
     @property
-    def is_location(self):
-        return self.args['location']
+    def is_locate(self):
+        return self.args['locate']
+
+    @property
+    def is_remove(self):
+        return self.args['remove']
 
     @property
     def name(self):
         return self.args['<name>']
 
-
     @property
     def template(self):
         return self.args['--template']
+
