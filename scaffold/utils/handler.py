@@ -93,7 +93,7 @@ class Scaffolder(object):
             dp = os.path.join(path, d)
             if os.path.isdir(dp):
                 print '|' + ' ' * space + '-- ' + d
-                self._list_directory(dp, space+4)
+                self._list_directory(dp, space + 3)
             else:
                 print '|' + ' ' * space + '-- ' + d
 
