@@ -1,0 +1,7 @@
+.idea/
+*.pyc
+.DS_Store
+build/
+dist/
+scaffolding.egg-info/
+*.tar.gz
