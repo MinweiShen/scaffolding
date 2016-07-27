@@ -1,0 +1,2 @@
+include scaffold/templates.tar.gz
+prune templates

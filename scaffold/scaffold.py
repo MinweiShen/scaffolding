@@ -1,13 +1,13 @@
 """scaffolding
 
 Usage:
-  scaffold.py list
-  scaffold.py locate
-  scaffold.py create <name>
-  scaffold.py create --template=<path>
-  scaffold.py show <name>
-  scaffold.py show --template=<path>
-  scaffold.py remove <name>
+  scaffold list
+  scaffold locate
+  scaffold create <name>
+  scaffold create --template=<path>
+  scaffold show <name>
+  scaffold show --template=<path>
+  scaffold remove <name>
 
 
 Commands:
@@ -25,6 +25,7 @@ Options:
 """
 import sys
 import os
+from subprocess import check_output
 from utils.command_parser import CommandParser
 from utils.handler import Scaffolder
 
@@ -33,7 +34,11 @@ VERSION = '0.1.0'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-if __name__ == '__main__':
+def main():
+    tar = os.path.join(BASE_DIR, 'templates.tar.gz')
+    if os.path.isfile(tar):
+        check_output(['tar', '-zxvf', tar, '-C', BASE_DIR])
+        check_output(['rm', tar])
     parser = CommandParser(__doc__, sys.argv[1:], VERSION)
     tdir = os.path.join(BASE_DIR, 'templates')
     scaffolder = Scaffolder(tdir)
@@ -47,3 +52,7 @@ if __name__ == '__main__':
         print scaffolder.location
     elif parser.is_remove:
         scaffolder.remove(parser.name)
+
+if __name__ == '__main__':
+    main()
+
