@@ -14,8 +14,8 @@ Commands:
   list                  Show available templates
   create                Create layout in current working directory
   show                  Show detailed layout of templates
-  locate                Show the template directory
-  remove                Remove a template if you don't want it
+  locate                Locate the template directory
+  remove                Remove a template
 
 Options:
   -h --help             Show this screen.
