@@ -1,8 +1,8 @@
 import os
-import sys
-from subprocess import check_output
-from render import Template
+from subprocess import check_output, CalledProcessError
+from template import Template
 from config_parser import ConfigParser
+from exceptions import FileNotFound, TemplateNotFound
 
 
 class Converter(object):
@@ -33,16 +33,13 @@ class Scaffolder(object):
         if name:
             path = os.path.join(self.tdir, name)
             if not os.path.isdir(path):
-                print '%s template doesn\'t exist.' % name
-                sys.exit(-1)
+                raise TemplateNotFound(path)
         elif template:
-            print 'Not supported yet.'
-            sys.exit(-1)
+            raise NotImplementedError('Not supported yet!')
 
         cfg = os.path.join(path, 'context')
         if not os.path.isfile(cfg):
-            print 'Can\'t load %s.' % cfg
-            sys.exit(-1)
+            raise FileNotFound(cfg)
 
         configs = ConfigParser(cfg).parse()
 
@@ -79,11 +76,9 @@ class Scaffolder(object):
         if name:
             path = os.path.join(self.tdir, name)
             if not os.path.isdir(path):
-                print '%s template doesn\'t exist.' % name
-                sys.exit(-1)
+                raise TemplateNotFound(path)
         elif template:
-            print 'Not supported yet.'
-            sys.exit(-1)
+            raise NotImplementedError('Not supported yet!')
 
         print path
         self._list_directory(path, 0)
@@ -102,8 +97,8 @@ class Scaffolder(object):
         if os.path.isdir(path):
             try:
                 check_output(['rm', '-r', path])
-            except:
-                pass
+            except CalledProcessError, e:
+                print e.output
 
     @property
     def location(self):

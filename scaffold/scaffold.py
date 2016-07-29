@@ -28,30 +28,35 @@ import os
 from subprocess import check_output
 from utils.command_parser import CommandParser
 from utils.handler import Scaffolder
+from utils.exceptions import ScaffoldException
 
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def main():
-    tar = os.path.join(BASE_DIR, 'templates.tar.gz')
-    if os.path.isfile(tar):
-        check_output(['tar', '-zxvf', tar, '-C', BASE_DIR])
-        check_output(['rm', tar])
-    parser = CommandParser(__doc__, sys.argv[1:], VERSION)
-    tdir = os.path.join(BASE_DIR, 'templates')
-    scaffolder = Scaffolder(tdir)
-    if parser.is_list:
-        scaffolder.list_templates()
-    elif parser.is_create:
-        scaffolder.create_layout(parser.name, parser.template)
-    elif parser.is_show:
-        scaffolder.show_layout(parser.name, parser.template)
-    elif parser.is_locate:
-        print scaffolder.location
-    elif parser.is_remove:
-        scaffolder.remove(parser.name)
+    try:
+        tar = os.path.join(BASE_DIR, 'templates.tar.gz')
+        if os.path.isfile(tar):
+            check_output(['tar', '-zxvf', tar, '-C', BASE_DIR])
+            check_output(['rm', tar])
+        parser = CommandParser(__doc__, sys.argv[1:], VERSION)
+        tdir = os.path.join(BASE_DIR, 'templates')
+        scaffolder = Scaffolder(tdir)
+        if parser.is_list:
+            scaffolder.list_templates()
+        elif parser.is_create:
+            scaffolder.create_layout(parser.name, parser.template)
+        elif parser.is_show:
+            scaffolder.show_layout(parser.name, parser.template)
+        elif parser.is_locate:
+            print scaffolder.location
+        elif parser.is_remove:
+            scaffolder.remove(parser.name)
+    except ScaffoldException, e:
+        print e.message
+
 
 if __name__ == '__main__':
     main()

@@ -1,17 +1,7 @@
-import sys
 import re
+from exceptions import ContextDoseNotExist
 
 tag = re.compile('({{.*?}})')
-
-
-class ContextDoseNotExist(Exception):
-    def __init__(self, file='', lineno=0, name=''):
-        if file:
-            self.message = '%s line %d: {{ %s }} not defined.' % (
-                file, lineno, name
-            )
-        else:
-            self.message = '{{ %s }} not defined.' % name
 
 
 class Template(object):
@@ -35,25 +25,22 @@ class Template(object):
         lineno = 1
         try:
             for token in self.tokens:
-                result.append(self._render(token, context, lineno))
+                result.append(self._render(token, context))
                 lineno += token[0].count('\n')
-        except ContextDoseNotExist, e:
+        except KeyError:
             if self.file:
-                print e.message
+                raise ContextDoseNotExist(self.file, lineno, token[0])
             else:
-                print 'In %s, %s' % (self.template_string, e.message)
-            sys.exit(-1)
+                raise ContextDoseNotExist(tstring=self.template_string, name=token[0])
         return ''.join(result)
 
-    def _render(self, token, context, lineno):
+    @classmethod
+    def _render(cls, token, context):
         text, t = token
         if t == 'TEXT':
             return text
         else:
-            try:
-                return context[text]
-            except KeyError:
-                raise ContextDoseNotExist(self.file, lineno, text)
+            return context[text]
 
     @classmethod
     def _get_template_string(cls, f):

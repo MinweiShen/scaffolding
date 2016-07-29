@@ -1,5 +1,6 @@
 import os
-import sys
+from exceptions import FileNotFound
+
 
 
 class ConfigParser(object):
@@ -12,8 +13,7 @@ class ConfigParser(object):
             if os.path.isfile(path):
                 self.path = path
             else:
-                print 'Please provide a valid config file path'
-                sys.exit(-1)
+                raise FileNotFound(path)
 
     def parse(self):
         result = []
