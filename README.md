@@ -52,7 +52,7 @@ Given a name listed by `list` command, output it's layout. For example:
 
 * `scaffold show --template=<path>`
 	
-Similar to above, but not supported yet.
+Similar to above, output a template's layout given the template's path.
 
 * `scaffold create <name>`
 	
@@ -60,11 +60,11 @@ Create the project layout based on given template.
 
 * `scaffold create --template=<path>`
 	
-Similar to above, but not supported yet
+Similar to above, the template is given by its path.
 
 * `scaffold locate`
 	
-Locate scaffold's template directory. You can add you personal tempaltes here.
+Locate scaffold's template directory. You can add you personal templates here.
 
 * `scaffold remove <name>`
 	

@@ -35,7 +35,11 @@ class Scaffolder(object):
             if not os.path.isdir(path):
                 raise TemplateNotFound(path)
         elif template:
-            raise NotImplementedError('Not supported yet!')
+            path = os.path.expanduser(template)
+            if not os.path.isdir(path):
+                path = os.path.join(os.getcwd(), template)
+                if not os.path.isdir(path):
+                    raise TemplateNotFound(template)
 
         cfg = os.path.join(path, 'context')
         if not os.path.isfile(cfg):
@@ -78,7 +82,11 @@ class Scaffolder(object):
             if not os.path.isdir(path):
                 raise TemplateNotFound(path)
         elif template:
-            raise NotImplementedError('Not supported yet!')
+            path = os.path.expanduser(template)
+            if not os.path.isdir(path):
+                path = os.path.join(os.getcwd(), template)
+                if not os.path.isdir(path):
+                    raise TemplateNotFound(template)
 
         print path
         self._list_directory(path, 0)
