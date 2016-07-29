@@ -108,6 +108,18 @@ class Scaffolder(object):
             except CalledProcessError, e:
                 print e.output
 
+    def install(self, template):
+        path = os.path.expanduser(template)
+        if not os.path.isdir(path):
+            path = os.path.join(os.getcwd(), template)
+            if not os.path.isdir(path):
+                raise TemplateNotFound(template)
+
+        try:
+            check_output(['cp', '-r', path, self.tdir])
+        except CalledProcessError, e:
+            print e.output
+
     @property
     def location(self):
         return self.tdir

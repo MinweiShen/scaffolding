@@ -50,7 +50,7 @@ Given a name listed by `list` command, output it's layout. For example:
 |-- .gitignore
 ```
 
-* `scaffold show --template=<path>`
+* `scaffold show -t <path>`
 	
 Similar to above, output a template's layout given the template's path.
 
@@ -58,7 +58,7 @@ Similar to above, output a template's layout given the template's path.
 	
 Create the project layout based on given template.
 
-* `scaffold create --template=<path>`
+* `scaffold create -t <path>`
 	
 Similar to above, the template is given by its path.
 
@@ -69,6 +69,10 @@ Locate scaffold's template directory. You can add you personal templates here.
 * `scaffold remove <name>`
 	
 Remove a template if you don't want it.
+
+* `scaffold install -t <path>`
+	
+Move a template to the templates directory (result of locate command). After this, you can use <name> to access the template.
 
 **Note:**For a full list of documentation, use ``scaffold -h``
 

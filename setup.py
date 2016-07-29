@@ -3,7 +3,7 @@ from setuptools import (
 )
 
 setup(name='scaffolding',
-      version='0.1.1',
+      version='0.2.0',
       description='Setup your project layout by templates',
       url='https://github.com/MinweiShen/scaffolding',
       author='Minwei Shen',

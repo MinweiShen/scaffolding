@@ -26,10 +26,14 @@ class CommandParser(object):
         return self.args['remove']
 
     @property
+    def is_install(self):
+        return self.args['install']
+
+    @property
     def name(self):
         return self.args['<name>']
 
     @property
     def template(self):
-        return self.args['--template']
+        return self.args['-t']
 

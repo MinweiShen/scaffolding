@@ -4,10 +4,11 @@ Usage:
   scaffold list
   scaffold locate
   scaffold create <name>
-  scaffold create --template=<path>
+  scaffold create -t <path>
   scaffold show <name>
-  scaffold show --template=<path>
+  scaffold show -t <path>
   scaffold remove <name>
+  scaffold install -t <path>
 
 
 Commands:
@@ -16,10 +17,11 @@ Commands:
   show                  Show detailed layout of templates
   locate                Locate the template directory
   remove                Remove a template
+  install               Move a template to the template directory (result of locate command)
 
 Options:
   -h --help             Show this screen.
-  --template=<path>     Path to your template, should be a directory
+  -t <path>             Path to your template, should be a directory
   <name>                <name> should be a directory in templates
 
 """
@@ -31,7 +33,7 @@ from utils.handler import Scaffolder
 from utils.exceptions import ScaffoldException
 
 
-VERSION = '0.1.1'
+VERSION = '0.2.0'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -54,6 +56,8 @@ def main():
             print scaffolder.location
         elif parser.is_remove:
             scaffolder.remove(parser.name)
+        elif parser.is_install:
+            scaffolder.install(parser.template)
     except ScaffoldException, e:
         print e.message
 
